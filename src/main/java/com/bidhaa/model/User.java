@@ -1,6 +1,7 @@
 package com.bidhaa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -16,8 +17,8 @@ import java.util.UUID;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE users SET status=false WHERE id=?")
-@Table(name = "users")
+@SQLDelete(sql = "UPDATE tbusers SET status=false WHERE id=?")
+@Table(name = "tbusers")
 public class User implements Serializable {
     @Id
     @GeneratedValue
@@ -50,13 +51,15 @@ public class User implements Serializable {
     @UpdateTimestamp
     private Date dateUpdated;
 
+
     @ManyToMany
     @JoinTable(
-            name = "users_roles",
+            name = "tbusers_roles",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
+    @JsonIgnoreProperties("users")
     private Collection<Role> roles;
 
 

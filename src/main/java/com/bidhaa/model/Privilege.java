@@ -1,5 +1,7 @@
 package com.bidhaa.model;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.*;
@@ -9,8 +11,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
-@Table(name="privilege")
-@SQLDelete(sql = "UPDATE privilege SET status=false WHERE id=?")
+@Table(name="tbprivilege")
+@SQLDelete(sql = "UPDATE tbprivilege SET status=false WHERE id=?")
+@Entity
+@Data
+@RequiredArgsConstructor
 public class Privilege implements Serializable {
     @Id
     @GeneratedValue
