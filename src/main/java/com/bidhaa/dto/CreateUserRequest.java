@@ -18,6 +18,10 @@ public record CreateUserRequest(
                         "at least one uppercase letter, one lowercase letter,one special character(@,*) and one number")
         String password,
         @NotEmpty(message = "phoneNumber cannot be blank")
-        String phoneNumber) {
+        String phoneNumber,
+        @NotEmpty(message = "Role cannot be blank")
+        @Pattern(regexp = "^(ADMIN|USER)$", message = "Role must be either ADMIN or USER")
+        String role
+) {
 
 }
