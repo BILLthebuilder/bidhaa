@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("signup")
+    @PostMapping("create")
     public ResponseEntity<GenericResponse> signup(@RequestBody @Valid CreateUserRequest request, Errors errors){
         return userService.create(request,errors);
     }
