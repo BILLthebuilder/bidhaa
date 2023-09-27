@@ -57,19 +57,30 @@ public class SecurityConfig {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**",
+            "/actuator/**",
+            "/api/v1/users/login"
+    };
 
+    private static final String[] ADMIN_URL_LIST = {
+            "/actuator/httpexchanges",
+            "/api/v1/users/disable",
+            "/api/v1/users/create"
+    };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
       try {
 
           http
                   .authorizeHttpRequests(authorize -> authorize
-                          .requestMatchers("/actuator/**")
+                          .requestMatchers(AUTH_WHITE_LIST)
                           .permitAll()
-                          .requestMatchers("/api/v1/users/signup")
-                          .permitAll()
-                          .requestMatchers("/api/v1/users/login")
-                          .permitAll()
+                          .requestMatchers(ADMIN_URL_LIST).hasRole("ADMIN")
                           .anyRequest()
                           .authenticated()
                   )
