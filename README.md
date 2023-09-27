@@ -114,7 +114,11 @@ java -jar /your_clone_directory/bidhaa/target/0.0.1.jar
 ```bash
 http://localhost:8080/swagger-ui/index.html
 ```
-
+- The Open Api V3 spec document can be viewed and retrieved from the below url
+- Remember to change the port accordingly
+```bash
+http://localhost:8080/v3/api-docs
+```
 ## Authors
 
 ### Bill Kariri
