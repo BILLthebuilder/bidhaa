@@ -1,6 +1,7 @@
 package com.bidhaa.controller;
 
 import com.bidhaa.dto.*;
+import com.bidhaa.model.User;
 import com.bidhaa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -24,6 +27,11 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginUserRequest request,Errors errors){
 
         return userService.login(request,errors);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getOne(@PathVariable String id){
+        return userService.getOne(id);
     }
 
     @GetMapping

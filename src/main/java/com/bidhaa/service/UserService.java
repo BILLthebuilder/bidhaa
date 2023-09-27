@@ -241,6 +241,13 @@ public class UserService {
         }
     }
 
+    public ResponseEntity<Optional<User>> getOne(String id){
+        if(userExists(id)){
+            return ResponseEntity.ok(userRepository.findById(UUID.fromString(id)));
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
     Privilege createPrivilegeIfNotFound(String name) {
 
         Privilege privilege = privilegeRepository.findByName(name);
