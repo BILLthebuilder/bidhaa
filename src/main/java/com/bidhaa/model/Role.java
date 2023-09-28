@@ -31,7 +31,7 @@ public class Role {
     @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
     private Boolean status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tbroles_privileges",
             joinColumns = @JoinColumn(

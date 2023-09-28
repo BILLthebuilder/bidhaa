@@ -52,7 +52,7 @@ public class User implements Serializable {
     private Date dateUpdated;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tbusers_roles",
             joinColumns = @JoinColumn(

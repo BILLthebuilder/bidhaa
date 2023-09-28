@@ -1,9 +1,6 @@
 package com.bidhaa.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -30,6 +27,9 @@ public class Product implements Serializable {
     private String quantity;
     private String category;
     private String tags;
+
+    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
+    private Boolean status;
 
     @CreationTimestamp
     private Date dateCreated;

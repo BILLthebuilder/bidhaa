@@ -57,7 +57,7 @@ public class SetupDataLoader implements
         user.setFirstName("Bill");
         user.setLastName("Kariri");
         user.setPassword(passwordEncoder.encode("Pass@1234"));
-        user.setEmail("billkariri@gmail.com");
+        user.setEmail("test@gmail.com");
         user.setPhoneNumber("0722000000");
         user.setRoles(Arrays.asList(adminRole));
         user.setStatus(true);

@@ -1,7 +1,6 @@
 package com.bidhaa.controller;
 
 
-
 import com.bidhaa.dto.*;
 import com.bidhaa.model.Product;
 import com.bidhaa.service.ProductService;
@@ -30,25 +29,27 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<GenericResponse> signup(@RequestBody @Valid ProductDto request, Errors errors){
-        return productService.create(request,errors);
+    public ResponseEntity<GenericResponse> signup(@RequestBody @Valid ProductDto request, Errors errors) {
+        return productService.create(request, errors);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Product>> getOne(@PathVariable String id){
+    public ResponseEntity<Optional<Product>> getOne(@PathVariable String id) {
         return productService.getOne(id);
     }
 
     @GetMapping
-    public ResponseEntity<GetProductsResponse> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
-        return productService.getAll(page,size);
+    public ResponseEntity<GetEntitiesResponse<Product>> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return productService.getAll(page, size);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<GenericResponse> update(@RequestBody @Valid ProductDto request, @PathVariable String id, Errors errors){
-        return productService.update(id,request,errors);
+    public ResponseEntity<GenericResponse> update(@RequestBody @Valid ProductDto request, @PathVariable String id, Errors errors) {
+        return productService.update(id, request, errors);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<GenericResponse> delete(@PathVariable String id){
+    public ResponseEntity<GenericResponse> delete(@PathVariable String id) {
         return productService.delete(id);
     }
 }

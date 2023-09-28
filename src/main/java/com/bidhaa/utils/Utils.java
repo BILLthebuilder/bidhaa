@@ -21,4 +21,15 @@ public class Utils {
             throw new IllegalArgumentException("Invalid input string format");
         }
     }
+    //kafkaTemplate.send(topicName, String.valueOf(product));
+    //               CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topicName, String.valueOf(product));
+//                future.whenComplete((result, ex) -> {
+//                    if (ex == null) {
+//                        log.info("Sent message=[" + product +
+//                                "] with offset=[" + result.getRecordMetadata().offset() + "]");
+//                    } else {
+//                        log.error("Unable to send message=[" +
+//                                product + "] due to : " + ex.getMessage());
+//                    }
+//                });
 }

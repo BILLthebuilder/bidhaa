@@ -27,6 +27,6 @@ public class Privilege implements Serializable {
     @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
     private Boolean status;
 
-    @ManyToMany(mappedBy = "privileges")
+    @ManyToMany(mappedBy = "privileges", fetch = FetchType.LAZY)
     private Collection<Role> roles;
 }
