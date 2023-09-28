@@ -70,8 +70,8 @@ public class ProductService {
         return genericService.getOne(id, productRepository);
     }
 
-    public ResponseEntity<GetEntitiesResponse<Product>> getAll(int page, int size) {
-        return genericService.getAll(page, size, productRepository);
+    public ResponseEntity<GetEntitiesResponse<Product>> getAll(int page, int size, String sortBy, String sortOrder) {
+        return genericService.getAll(productRepository,page, size,sortBy,sortOrder);
     }
 
     public ResponseEntity<GenericResponse> update(String id, ProductDto request, Errors errors) {

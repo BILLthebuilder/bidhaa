@@ -60,25 +60,25 @@ java -jar /your_clone_directory/bidhaa/target/0.0.1.jar
 
 #### Auth Endpoints
 
-| Request | Endpoint                      | Function                  |
-|---------|-------------------------------|---------------------------|
-| POST    | `/api/v1/users/create`        | Create a new user         |
-| POST    | `/api/v1/users/login`         | Login a registered user   |
-| GET     | `/api/v1/users?page=?&size=?` | Get  all registered users |
-| PUT     | `/api/v1/users/{Id}`          | Update a registered user  |
-| DELETE  | `/api/v1/users/{Id}`          | Delete a registered user  |
+| Request | Endpoint                                     | Function                  |
+|---------|----------------------------------------------|---------------------------|
+| POST    | `/api/v1/users/create`                       | Create a new user         |
+| POST    | `/api/v1/users/login`                        | Login a registered user   |
+| GET     | `/api/v1/users?page=?&size=?&sort=?&order=?` | Get  all registered users |
+| PUT     | `/api/v1/users/{Id}`                         | Update a registered user  |
+| DELETE  | `/api/v1/users/{Id}`                         | Delete a registered user  |
 
 #### Product endpoints
 
 
-| Request | Endpoint                         | Function             |
-|---------|----------------------------------|----------------------|
-| POST    | `/api/v1/products/create`        | Create a new Product |
-| POST    | `/api/v1/products/upload`        | Upload products csv  |
-| GET     | `/api/v1/products?page=?&size=?` | Get all products     |
-| GET     | `/api/v1/products/{Id}`          | Get a product by ID  |
-| PUT     | `/api/v1/products/{Id}`          | Update a product     |
-| DELETE  | `/api/v1/products/{Id}`          | Delete a product     |
+| Request | Endpoint                                        | Function             |
+|---------|-------------------------------------------------|----------------------|
+| POST    | `/api/v1/products/create`                       | Create a new Product |
+| POST    | `/api/v1/products/upload`                       | Upload products csv  |
+| GET     | `/api/v1/products?page=?&size=?&sort=?&order=?` | Get all products     |
+| GET     | `/api/v1/products/{Id}`                         | Get a product by ID  |
+| PUT     | `/api/v1/products/{Id}`                         | Update a product     |
+| DELETE  | `/api/v1/products/{Id}`                         | Delete a product     |
 
 
 

@@ -39,8 +39,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<GetEntitiesResponse<Product>> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return productService.getAll(page, size);
+    public ResponseEntity<GetEntitiesResponse<Product>> getAll( @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                @RequestParam(name = "size", defaultValue = "10") int size,
+                                                                @RequestParam(name = "sort", required = false) String sortBy,
+                                                                @RequestParam(name = "order", defaultValue = "asc") String sortOrder) {
+        return productService.getAll(page, size,sortBy,sortOrder);
     }
 
     @PutMapping("/{id}")

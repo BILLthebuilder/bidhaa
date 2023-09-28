@@ -35,8 +35,11 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<GetEntitiesResponse<User>> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
-        return userService.getAll(page,size);
+    public ResponseEntity<GetEntitiesResponse<User>> getAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                            @RequestParam(name = "size", defaultValue = "10") int size,
+                                                            @RequestParam(name = "sort", required = false) String sortBy,
+                                                            @RequestParam(name = "order", defaultValue = "asc") String sortOrder){
+        return userService.getAll(page,size,sortBy,sortOrder);
     }
 
     @PutMapping("/{id}")

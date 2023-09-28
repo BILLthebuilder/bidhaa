@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,15 +98,18 @@ public class GenericService {
     }
 
     public <E> ResponseEntity<GetEntitiesResponse<E>> getAll(
+            JpaRepository<E, UUID> repository,
             int page,
             int size,
-            JpaRepository<E, UUID> repository) {
+            String sortBy,
+            String sortOrder
+    ) {
 
         GetEntitiesResponse<E> response;
 
         Page<E> entities = null;
-        Pageable pageable = PageRequest.of(page, size);
-
+        //Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = createPageable(page, size,sortBy, sortOrder);
         try {
             entities = repository.findAll(pageable);
             response = new GetEntitiesResponse<>(Status.SUCCESS, entities);
@@ -160,5 +164,19 @@ public class GenericService {
             response = new GenericResponse("Deleting failed", Status.FAILED);
             return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+    private Pageable createPageable(int page, int size, String sortBy, String sortOrder) {
+        Sort sort = Sort.by(Sort.Order.asc("id"));
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = Sort.by(Sort.Order.desc(sortBy));
+            } else {
+                sort = Sort.by(Sort.Order.asc(sortBy));
+            }
+
+        }
+
+        return PageRequest.of(page, size, sort);
     }
 }

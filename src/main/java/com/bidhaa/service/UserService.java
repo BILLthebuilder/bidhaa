@@ -162,8 +162,8 @@ public class UserService {
         return genericService.getOne(id, userRepository);
     }
 
-    public ResponseEntity<GetEntitiesResponse<User>> getAll(int page, int size) {
-        return genericService.getAll(page, size, userRepository);
+    public ResponseEntity<GetEntitiesResponse<User>> getAll(int page, int size, String sortBy, String sortOrder) {
+        return genericService.getAll( userRepository,page, size,sortBy,sortOrder);
     }
 
 
