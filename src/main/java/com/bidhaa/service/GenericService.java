@@ -3,11 +3,12 @@ package com.bidhaa.service;
 import com.bidhaa.dto.GenericResponse;
 import com.bidhaa.dto.GetEntitiesResponse;
 import com.bidhaa.dto.Status;
+import com.bidhaa.model.ParentEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,11 @@ import org.springframework.validation.FieldError;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -97,7 +101,7 @@ public class GenericService {
         }
     }
 
-    public <E> ResponseEntity<GetEntitiesResponse<E>> getAll(
+    public <E extends ParentEntity> ResponseEntity<GetEntitiesResponse<E>> getAll(
             JpaRepository<E, UUID> repository,
             int page,
             int size,
@@ -107,12 +111,18 @@ public class GenericService {
 
         GetEntitiesResponse<E> response;
 
-        Page<E> entities = null;
-        //Pageable pageable = PageRequest.of(page, size);
+        Slice<E> entities = null;
+        List<E> filteredEntities = new ArrayList<>();
         Pageable pageable = createPageable(page, size,sortBy, sortOrder);
         try {
             entities = repository.findAll(pageable);
-            response = new GetEntitiesResponse<>(Status.SUCCESS, entities);
+            filteredEntities = entities
+                    .getContent()
+                    .stream()
+                    .filter(E::getStatus)
+                    .collect(Collectors.toList());
+
+            response = new GetEntitiesResponse<>(Status.SUCCESS, filteredEntities);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
