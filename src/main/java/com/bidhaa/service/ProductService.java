@@ -1,28 +1,27 @@
 package com.bidhaa.service;
 
-import com.bidhaa.dto.*;
-import com.bidhaa.mappers.ProductMapper;
-import com.bidhaa.mappers.ProductMapperUpdate;
+import com.bidhaa.dto.GenericResponse;
+import com.bidhaa.dto.GetEntitiesResponse;
+import com.bidhaa.dto.ProductDto;
 import com.bidhaa.model.Product;
-import com.bidhaa.model.User;
 import com.bidhaa.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,20 +42,30 @@ public class ProductService {
 
     private final GenericService genericService;
 
-    private final ProductMapper productMapper;
-
-    private final ProductMapperUpdate productMapperUpdate;
 
     public void upload(MultipartFile file) throws IOException {
         List<ProductDto> products = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] fields = line.split(",");
-
-            var product = new ProductDto(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
+        try (Reader reader = new InputStreamReader(file.getInputStream());
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build())) {
+            for (CSVRecord csvRecord : csvParser) {
+                String name = csvRecord.get("name");
+                String description = csvRecord.get("description");
+                String price = csvRecord.get("price");
+                String quantity = csvRecord.get("quantity");
+                String category = csvRecord.get("category");
+                String tags = csvRecord.get("tags");
+                var product = new ProductDto(
+                   name,
+                    description,
+                    new BigDecimal(price),
+                    Integer.valueOf(quantity),
+                    category,
+                        tags);
             products.add(product);
-        }
+            }
+
+    }
+
         for (ProductDto product : products) {
             threadPoolTaskExecutor.submit(() -> kafkaTemplate.send(topicName, String.valueOf(product)));
         }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity
 @SQLDelete(sql = "UPDATE tbproducts SET status=false WHERE id=?")
 @Table(name = "tbproducts")
-public class Product implements Serializable {
+public class Product implements Serializable,ParentEntity {
     @Id
     @GeneratedValue
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -23,19 +24,30 @@ public class Product implements Serializable {
 
     private String name;
     private String description;
-    private String price;
-    private String quantity;
+    private BigDecimal price;
+    private Integer quantity;
     private String category;
     private String tags;
-
-    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
-
     @CreationTimestamp
     private Date dateCreated;
 
     @UpdateTimestamp
     private Date dateUpdated;
 
+    @Column(columnDefinition = "boolean default false",nullable = false)
+    public boolean status;
 
+    @PreRemove
+    public void deleteProduct () {
+        this.status = false;
+    }
+
+    @PrePersist
+    public void saveProduct () {
+        this.status = true;
+    }
+    @Override
+    public boolean getStatus() {
+        return this.status;
+    }
 }

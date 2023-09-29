@@ -3,12 +3,12 @@ package com.bidhaa.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Table;
-import lombok.Data;
-import org.hibernate.annotations.*;
-
 import jakarta.persistence.*;
-import org.hibernate.annotations.Parameter;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Entity
 @SQLDelete(sql = "UPDATE tbusers SET status=false WHERE id=?")
 @Table(name = "tbusers")
-public class User implements Serializable {
+public class User implements Serializable,ParentEntity {
     @Id
     @GeneratedValue
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -63,8 +63,8 @@ public class User implements Serializable {
     private Collection<Role> roles;
 
 
-    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
+    @Column(columnDefinition = "boolean default false",nullable = false)
+    private boolean status;
 
     /**
      * Ensures status value is also updated in the
@@ -75,4 +75,8 @@ public class User implements Serializable {
         this.status = false;
     }
 
+    @Override
+    public boolean getStatus() {
+        return this.status;
+    }
 }

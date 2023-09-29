@@ -1,15 +1,13 @@
 package com.bidhaa.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-
-import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 @Table(name="tbprivilege")
 @SQLDelete(sql = "UPDATE tbprivilege SET status=false WHERE id=?")
@@ -24,9 +22,19 @@ public class Privilege implements Serializable {
 
     private String name;
 
-    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
-
     @ManyToMany(mappedBy = "privileges", fetch = FetchType.LAZY)
     private Collection<Role> roles;
+
+    @Column(columnDefinition = "boolean default false",nullable = false)
+    private boolean status;
+
+    @PreRemove
+    public void deletePrivillege () {
+        this.status = false;
+    }
+
+    @PrePersist
+    public void savePrivillege () {
+        this.status = true;
+    }
 }

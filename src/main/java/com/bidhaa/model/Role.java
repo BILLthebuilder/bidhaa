@@ -1,12 +1,10 @@
 package com.bidhaa.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-
-import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Collection;
@@ -28,9 +26,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 
-    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tbroles_privileges",
@@ -40,4 +35,17 @@ public class Role {
                     name = "privilege_id", referencedColumnName = "id"))
     @JsonIgnoreProperties("roles")
     private Collection<Privilege> privileges;
+
+    @Column(columnDefinition = "boolean default false",nullable = false)
+    private boolean status;
+
+    @PreRemove
+    public void deleteRole () {
+        this.status = false;
+    }
+
+    @PrePersist
+    public void saveRole () {
+        this.status = true;
+    }
 }

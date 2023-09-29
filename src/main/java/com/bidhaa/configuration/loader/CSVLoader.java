@@ -1,6 +1,5 @@
 package com.bidhaa.configuration.loader;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -10,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Random;
 
 @Component
 @Slf4j
@@ -28,8 +28,8 @@ public class CSVLoader implements ApplicationListener<ContextRefreshedEvent> {
             for (int i = 0; i < numberOfRecords; i++) {
                 String name = "Product" + (i + 1);
                 String description = "Description" + (i + 1);
-                double price = 10 + random.nextDouble() * 90; // Random price between 10 and 100
-                int quantity = random.nextInt(100); // Random quantity between 0 and 99
+                BigDecimal price = BigDecimal.valueOf(10 + random.nextDouble() * 90); // Random price between 10 and 100
+                Integer quantity = random.nextInt(100); // Random quantity between 0 and 99
                 String category = "Category" + (i % 5); // Five different categories
                 String tags = "Tag" + (i % 3); // Three different tags
 

@@ -2,6 +2,7 @@ package com.bidhaa.utils;
 
 import com.bidhaa.dto.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +17,7 @@ public class Utils {
             String quantity = matcher.group(4);
             String category = matcher.group(5);
             String tags = matcher.group(6);
-            return new ProductDto(name,description,price,quantity,category,tags);
+            return new ProductDto(name,description,new BigDecimal(price),Integer.valueOf(quantity),category,tags);
         } else {
             throw new IllegalArgumentException("Invalid input string format");
         }

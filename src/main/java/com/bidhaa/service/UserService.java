@@ -3,9 +3,7 @@ package com.bidhaa.service;
 
 import com.bidhaa.dto.*;
 import com.bidhaa.mappers.UserMapper;
-import com.bidhaa.mappers.UserMapperUpdate;
 import com.bidhaa.model.Privilege;
-import com.bidhaa.model.Product;
 import com.bidhaa.model.Role;
 import com.bidhaa.model.User;
 import com.bidhaa.repository.PrivilegeRepository;
