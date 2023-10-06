@@ -7,21 +7,20 @@ import com.bidhaa.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
 
 @SpringBootApplication
 @Slf4j
-public class BidhaaApplication {
+public class Application {
 
     @Autowired
     ProductRepository productRepository;
 
 
     public static void main(String[] args) {
-        SpringApplication.run(BidhaaApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @KafkaListener(topics = "bidhaa", groupId = "foo")
