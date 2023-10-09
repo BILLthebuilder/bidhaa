@@ -1,13 +1,14 @@
 package com.bidhaa.controller;
 
 
-import com.bidhaa.dto.*;
+import com.bidhaa.dto.GenericResponse;
+import com.bidhaa.dto.GetEntitiesResponse;
+import com.bidhaa.dto.ProductDto;
 import com.bidhaa.model.Product;
 import com.bidhaa.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

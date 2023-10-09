@@ -3,12 +3,11 @@ package com.bidhaa.controller;
 import com.bidhaa.dto.*;
 import com.bidhaa.model.User;
 import com.bidhaa.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 import java.util.Optional;
 

@@ -7,6 +7,7 @@ import org.springframework.boot.actuate.web.exchanges.InMemoryHttpExchangeReposi
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 
 @Repository
