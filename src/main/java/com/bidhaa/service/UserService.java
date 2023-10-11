@@ -2,7 +2,6 @@ package com.bidhaa.service;
 
 
 import com.bidhaa.dto.*;
-import com.bidhaa.mappers.UserMapper;
 import com.bidhaa.model.Privilege;
 import com.bidhaa.model.Role;
 import com.bidhaa.model.User;
@@ -51,7 +50,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtEncoder jwtEncoder;
 
-    private final UserMapper userMapper;
+
 
     private final GenericService genericService;
 
@@ -67,7 +66,7 @@ public class UserService {
         }
         try {
             if (!emailExists(request.email())) {
-                var user = userMapper.toUser(request);
+                var user = new User();
                 Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
                 Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
                 log.info(request.role());
@@ -82,6 +81,10 @@ public class UserService {
                     user.setRoles(Arrays.asList(userRole));
                     createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
                 }
+                user.setFirstName(request.firstName());
+                user.setLastName(request.lastName());
+                user.setEmail(request.email());
+                user.setPhoneNumber(request.phoneNumber());
                 user.setStatus(true);
                 user.setPassword(passwordEncoder.encode(request.password()));
                 userRepository.save(user);
@@ -120,15 +123,14 @@ public class UserService {
                 return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             } else {
                 final UserDetails userDetails = customUserDetailsService.loadUserByUsername(request.email());
-                userDetails.getAuthorities().stream().map(s ->
-                                new SimpleGrantedAuthority(s.getAuthority())).
-                        filter(Objects::nonNull).
-                        collect(Collectors.toList());
+//                userDetails.getAuthorities().stream().map(s ->
+//                                new SimpleGrantedAuthority(s.getAuthority())).
+//                        filter(Objects::nonNull).
+//                        collect(Collectors.toList());
                 String roles = userDetails.getAuthorities().stream().map(s ->
                                 new SimpleGrantedAuthority(s.getAuthority())).
                         filter(Objects::nonNull).
                         collect(Collectors.toList()).toString();
-//                log.warn(roles);
                 var now = Instant.now();
                 var expiry = 36000L;
 
@@ -161,7 +163,7 @@ public class UserService {
     }
 
     public ResponseEntity<GetEntitiesResponse<User>> getAll(int page, int size, String sortBy, String sortOrder) {
-        return genericService.getAll( userRepository,page, size,sortBy,sortOrder);
+        return genericService.getAll(userRepository, page, size, sortBy, sortOrder);
     }
 
 
