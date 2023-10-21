@@ -1,8 +1,9 @@
 package com.bidhaa.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -12,7 +13,8 @@ import java.util.UUID;
 @Table(name="tbprivilege")
 @SQLDelete(sql = "UPDATE tbprivilege SET status=false WHERE id=?")
 @Entity
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class Privilege implements Serializable {
     @Id

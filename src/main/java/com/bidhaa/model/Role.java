@@ -2,8 +2,9 @@ package com.bidhaa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -13,7 +14,8 @@ import java.util.UUID;
 @Entity
 @Table(name="tbroles")
 @SQLDelete(sql = "UPDATE roles SET status=false WHERE id=?")
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class Role {
 

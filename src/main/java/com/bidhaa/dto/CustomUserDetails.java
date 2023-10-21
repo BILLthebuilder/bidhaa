@@ -1,11 +1,9 @@
 package com.bidhaa.dto;
 
-import com.bidhaa.model.Privilege;
 import com.bidhaa.model.Role;
 import com.bidhaa.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Slf4j
 public class CustomUserDetails implements UserDetails {
     private final User user;
 
@@ -74,28 +72,27 @@ public class CustomUserDetails implements UserDetails {
             String myRole = r.getName().toUpperCase();
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
-
         return rtnList;
     }
-    public List<String> getPrivileges(Collection<Role> roles) {
-
-        List<String> privileges = new ArrayList<>();
-        List<Privilege> collection = new ArrayList<>();
-        for (Role role : roles) {
-            privileges.add(role.getName());
-            collection.addAll(role.getPrivileges());
-        }
-        for (Privilege item : collection) {
-            privileges.add(item.getName());
-        }
-        return privileges;
-    }
-
-    public List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
-        }
-        return authorities;
-    }
+//    public List<String> getPrivileges(Collection<Role> roles) {
+//
+//        List<String> privileges = new ArrayList<>();
+//        List<Privilege> collection = new ArrayList<>();
+//        for (Role role : roles) {
+//            privileges.add(role.getName());
+//            collection.addAll(role.getPrivileges());
+//        }
+//        for (Privilege item : collection) {
+//            privileges.add(item.getName());
+//        }
+//        return privileges;
+//    }
+//
+//    public List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (String privilege : privileges) {
+//            authorities.add(new SimpleGrantedAuthority(privilege));
+//        }
+//        return authorities;
+//    }
 }
